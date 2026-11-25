@@ -1,0 +1,396 @@
+/*
+ * ============================================================================
+ *  Jenkinsfile-Smoke
+ *  ----------------------------------------------------------------------------
+ *  IYP UI — Playwright @smoke suite (no schedule; build with parameters only).
+ *
+ *  Build with Parameters:
+ *    1. ENVIRONMENT     — staging / uat
+ *    2. WORKERS         — Playwright workers (default 2)
+ *    3. EMAIL_RECIPIENT — optional; notified on failure/unstable (Email Extension)
+ *
+ *  Jenkins prerequisites (same server as insure-your-paws-api):
+ *    - NodeJS tool named 'NodeJS'
+ *    - Credential 'iyp-basic-auth' — Username/Password for Apache HTTP Basic on
+ *      staging/uat (same values as local .env HTTP_USERNAME / HTTP_PASSWORD).
+ *      Must be credential kind "Username with password", not Secret text.
+ *    - HTML Publisher plugin
+ *    - (Recommended) Allure Jenkins Plugin — also publishes generated allure-report via HTML
+ *    - (Optional) Email Extension plugin for EMAIL_RECIPIENT
+ *
+ *  Job setup:
+ *    New Item → Pipeline → Pipeline script from SCM → Script Path:
+ *      jenkins/Jenkinsfile-Smoke
+ * ============================================================================
+ */
+
+pipeline {
+    agent any
+
+    options {
+        skipDefaultCheckout(true)
+        buildDiscarder(logRotator(numToKeepStr: '30', daysToKeepStr: '14'))
+        timestamps()
+        timeout(time: 90, unit: 'MINUTES')
+    }
+
+    parameters {
+        choice(
+            name: 'ENVIRONMENT',
+            choices: ['staging', 'uat'],
+            description: '''Target site for smoke tests.
+staging — https://staging.insureyourpaws.co.uk/ (default; matches local suite)
+uat     — https://uat.insureyourpaws.co.uk/ (UI may differ from staging journey)'''
+        )
+        choice(
+            name: 'WORKERS',
+            choices: ['2', '1', '3', '4'],
+            description: 'Playwright parallel workers (keep low against shared staging).'
+        )
+        string(
+            name: 'EMAIL_RECIPIENT',
+            defaultValue: '',
+            description: 'Optional. Comma-separated emails for failure/unstable notification. Leave empty to skip email.'
+        )
+    }
+
+    tools {
+        nodejs 'NodeJS'
+    }
+
+    environment {
+        CI = 'true'
+    }
+
+    stages {
+
+        stage('Cleanup Workspace') {
+            steps { cleanWs() }
+        }
+
+        stage('Checkout') {
+            steps {
+                checkout scm
+                script {
+                    env.TEST_ENV = params.ENVIRONMENT
+                    env.BASE_URL = params.ENVIRONMENT == 'uat'
+                        ? 'https://uat.insureyourpaws.co.uk/'
+                        : 'https://staging.insureyourpaws.co.uk/'
+
+                    echo '=========================================='
+                    echo '  IYP UI — Playwright Smoke'
+                    echo '=========================================='
+                    echo "Environment : ${params.ENVIRONMENT}"
+                    echo "Base URL    : ${env.BASE_URL}"
+                    echo "Workers     : ${params.WORKERS}"
+                    echo "Branch      : ${env.GIT_BRANCH ?: 'N/A'}"
+                    echo "Commit      : ${env.GIT_COMMIT ?: 'N/A'}"
+                    echo '=========================================='
+                }
+            }
+        }
+
+        stage('Production Safety Check') {
+            when { expression { params.ENVIRONMENT == 'prod' } }
+            steps {
+                error('Smoke Jenkinsfile does not allow prod. Use staging or uat only.')
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                script {
+                    if (isUnix()) {
+                        sh '''
+                            if [ -f package-lock.json ]; then
+                                npm ci --no-audit --fund=false --loglevel=warn
+                            else
+                                npm install --no-audit --fund=false --loglevel=warn
+                            fi
+                        '''
+                    } else {
+                        bat '''
+                            if exist package-lock.json (
+                              call npm ci --no-audit --fund=false --loglevel=warn
+                            ) else (
+                              call npm install --no-audit --fund=false --loglevel=warn
+                            )
+                        '''
+                    }
+                }
+            }
+        }
+
+        stage('Install Browsers') {
+            steps {
+                script {
+                    // Do NOT use --with-deps on Jenkins: it invokes sudo and fails
+                    // when the agent has no passwordless sudo. OS libs should already
+                    // be on the node (or install once as root outside the job).
+                    if (isUnix()) {
+                        sh 'npx playwright install chromium'
+                    } else {
+                        bat 'npx playwright install chromium'
+                    }
+                }
+            }
+        }
+
+        stage('Typecheck') {
+            steps {
+                catchError(buildResult: 'UNSTABLE', stageResult: 'UNSTABLE') {
+                    script {
+                        if (isUnix()) {
+                            sh 'npm run typecheck'
+                        } else {
+                            bat 'npm run typecheck'
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Verify HTTP Basic Auth') {
+            steps {
+                // Fail fast if Jenkins credential is wrong for Apache on staging/uat.
+                withCredentials([usernamePassword(
+                    credentialsId: 'iyp-basic-auth',
+                    usernameVariable: 'HTTP_USERNAME',
+                    passwordVariable: 'HTTP_PASSWORD'
+                )]) {
+                    script {
+                        if (isUnix()) {
+                            sh """#!/bin/bash
+                                set -euo pipefail
+                                if [ -z "\${HTTP_USERNAME}" ] || [ -z "\${HTTP_PASSWORD}" ]; then
+                                  echo "ERROR: iyp-basic-auth username/password is empty."
+                                  exit 1
+                                fi
+                                code=\$(curl -s -o /dev/null -w '%{http_code}' \\
+                                  -u "\${HTTP_USERNAME}:\${HTTP_PASSWORD}" \\
+                                  "${env.BASE_URL}")
+                                echo "Auth probe HTTP status: \${code} (username=\${HTTP_USERNAME})"
+                                case "\${code}" in
+                                  200|301|302|303|307|308) echo "Basic auth OK" ;;
+                                  401|403)
+                                    echo "ERROR: Apache rejected iyp-basic-auth for ${env.BASE_URL}"
+                                    echo "Update Jenkins credential 'iyp-basic-auth' to the same"
+                                    echo "HTTP_USERNAME / HTTP_PASSWORD used in local .env for staging."
+                                    exit 1
+                                    ;;
+                                  *)
+                                    echo "WARN: unexpected status \${code}; continuing (site may still load)"
+                                    ;;
+                                esac
+                            """
+                        } else {
+                            bat """
+                                if "%HTTP_USERNAME%"=="" exit /b 1
+                                curl -s -o NUL -w "%%{http_code}" -u "%HTTP_USERNAME%:%HTTP_PASSWORD%" "${env.BASE_URL}" > auth-status.txt
+                                type auth-status.txt
+                            """
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Run Smoke Tests') {
+            steps {
+                withCredentials([usernamePassword(
+                    credentialsId: 'iyp-basic-auth',
+                    usernameVariable: 'HTTP_USERNAME',
+                    passwordVariable: 'HTTP_PASSWORD'
+                )]) {
+                    script {
+                        catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+                            if (isUnix()) {
+                                sh """#!/bin/bash
+                                    set -o pipefail
+                                    export CI=true
+                                    export BASE_URL='${env.BASE_URL}'
+                                    # HTTP_USERNAME / HTTP_PASSWORD come from withCredentials
+                                    npx playwright test --project=smoke --workers=${params.WORKERS} 2>&1 | tee smoke-test-output.log
+                                """
+                            } else {
+                                bat """
+                                    set CI=true
+                                    set BASE_URL=${env.BASE_URL}
+                                    npx playwright test --project=smoke --workers=${params.WORKERS} > smoke-test-output.log 2>&1
+                                    type smoke-test-output.log
+                                    exit /b %ERRORLEVEL%
+                                """
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Generate Allure Report') {
+            steps {
+                catchError(buildResult: null, stageResult: null) {
+                    script {
+                        if (isUnix()) {
+                            sh '''
+                                if [ -d allure-results ] && [ "$(ls -A allure-results 2>/dev/null)" ]; then
+                                    npm run allure:generate
+                                else
+                                    echo "No allure-results to generate — skipping."
+                                    mkdir -p allure-report
+                                    echo '<html><body><p>No Allure results for this build.</p></body></html>' > allure-report/index.html
+                                fi
+                            '''
+                        } else {
+                            bat '''
+                                if exist allure-results\\ (
+                                  call npm run allure:generate
+                                ) else (
+                                  mkdir allure-report 2>nul
+                                  echo No Allure results for this build.> allure-report\\index.html
+                                )
+                            '''
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Publish Reports') {
+            steps {
+                script {
+                    // Relax CSP so Allure / Playwright HTML assets render in Jenkins
+                    // (same approach as api-automation-jest Jenkinsfile-UAT).
+                    try {
+                        System.setProperty(
+                            'hudson.model.DirectoryBrowserSupport.CSP',
+                            "default-src 'none'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; font-src 'self' data:; connect-src 'self'; worker-src 'self' blob:;"
+                        )
+                    } catch (Exception e) {
+                        echo "CSP tweak skipped (needs script approval): ${e.message}"
+                    }
+
+                    archiveArtifacts artifacts: 'playwright-report/**/*', allowEmptyArchive: true, fingerprint: true
+                    archiveArtifacts artifacts: 'allure-results/**/*', allowEmptyArchive: true, fingerprint: true
+                    archiveArtifacts artifacts: 'allure-report/**/*', allowEmptyArchive: true, fingerprint: true
+                    archiveArtifacts artifacts: 'test-results/**/*', allowEmptyArchive: true, fingerprint: true
+                    archiveArtifacts artifacts: 'smoke-test-output.log', allowEmptyArchive: true
+
+                    if (fileExists('test-results/junit.xml')) {
+                        junit allowEmptyResults: true, testResults: 'test-results/junit.xml'
+                    }
+
+                    publishHTML([
+                        allowMissing         : true,
+                        alwaysLinkToLastBuild: true,
+                        keepAll              : true,
+                        reportDir            : 'playwright-report',
+                        reportFiles          : 'index.html',
+                        reportName           : 'Playwright HTML Report',
+                        reportTitles         : 'IYP UI Smoke — Playwright'
+                    ])
+
+                    publishHTML([
+                        allowMissing         : true,
+                        alwaysLinkToLastBuild: true,
+                        keepAll              : true,
+                        reportDir            : 'allure-report',
+                        reportFiles          : 'index.html',
+                        reportName           : 'Allure Report',
+                        reportTitles         : 'IYP UI Smoke — Allure'
+                    ])
+
+                    // Allure Jenkins Plugin (if installed) — trends + native UI
+                    try {
+                        allure([
+                            includeProperties: false,
+                            jdk              : '',
+                            results          : [[path: 'allure-results']]
+                        ])
+                    } catch (Exception e) {
+                        echo "Allure plugin step skipped (plugin may be missing): ${e.message}"
+                        echo "Use the 'Allure Report' HTML Publisher tab instead."
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            script {
+                echo '=========================================='
+                echo '  IYP UI Smoke — Completed'
+                echo '=========================================='
+                echo "Result      : ${currentBuild.result ?: 'SUCCESS'}"
+                echo "Duration    : ${currentBuild.durationString}"
+                echo "Environment : ${params.ENVIRONMENT}"
+                echo "Base URL    : ${env.BASE_URL}"
+                echo '=========================================='
+                echo "Playwright  : ${env.BUILD_URL}Playwright_20HTML_20Report/"
+                echo "Allure HTML : ${env.BUILD_URL}Allure_20Report/"
+                echo "Console     : ${env.BUILD_URL}console"
+                echo '=========================================='
+
+                notifySmokeEmail()
+            }
+        }
+        success  { echo 'Smoke suite passed.' }
+        unstable { echo 'Smoke suite unstable — check Allure / Playwright report tabs.' }
+        failure  { echo 'Smoke suite failed — check Allure / Playwright report tabs.' }
+        cleanup {
+            catchError(buildResult: null, stageResult: null) {
+                cleanWs(deleteDirs: true, patterns: [[pattern: 'node_modules', type: 'INCLUDE']])
+            }
+        }
+    }
+}
+
+def notifySmokeEmail() {
+    def recipients = (params.EMAIL_RECIPIENT ?: '').trim()
+    if (!recipients) {
+        echo 'EMAIL_RECIPIENT empty — skipping email notification.'
+        return
+    }
+
+    def status = currentBuild.result ?: 'SUCCESS'
+    if (!(status in ['FAILURE', 'UNSTABLE'])) {
+        echo "Build ${status} — email only sent on FAILURE/UNSTABLE."
+        return
+    }
+
+    def subject = "[IYP UI Smoke] ${status} — ${params.ENVIRONMENT} — #${env.BUILD_NUMBER}"
+    def body = """IYP UI Playwright smoke finished: ${status}
+
+Environment : ${params.ENVIRONMENT}
+Base URL    : ${env.BASE_URL}
+Build       : ${env.BUILD_URL}
+Duration    : ${currentBuild.durationString}
+
+Reports:
+- Playwright HTML : ${env.BUILD_URL}Playwright_20HTML_20Report/
+- Allure Report   : ${env.BUILD_URL}Allure_20Report/
+- Console         : ${env.BUILD_URL}console
+"""
+
+    try {
+        emailext(
+            subject: subject,
+            body: body,
+            to: recipients,
+            mimeType: 'text/plain'
+        )
+        echo "Email notification requested for: ${recipients}"
+    } catch (Exception e) {
+        try {
+            mail(
+                to: recipients,
+                subject: subject,
+                body: body
+            )
+            echo "Email sent via mail() to: ${recipients}"
+        } catch (Exception e2) {
+            echo "Email notification skipped: ${e2.message}"
+        }
+    }
+}

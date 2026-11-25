@@ -1,0 +1,189 @@
+{
+  "ranAt": "2026-08-07T10:22:29.325Z",
+  "baseline": {
+    "priceBefore": 23.35,
+    "reachedPayment": true,
+    "technicalIssueVisible": false,
+    "url": "https://staging.insureyourpaws.co.uk/journey/step4",
+    "heading": "Make a payment",
+    "apis": [
+      {
+        "phase": "baseline-Next",
+        "method": "POST",
+        "url": "https://staging.insureyourpaws.co.uk/v2/api/quote/getnewquote",
+        "status": 200,
+        "ok": true,
+        "requestPromotionCode": null,
+        "requestBody": {
+          "PromotionCode": null,
+          "keys": [
+            "Quote",
+            "storeQuote",
+            "StoreQuoteStep",
+            "QuoteType"
+          ]
+        },
+        "responseSummary": {
+          "Success": true,
+          "Message": "Quote generated successfully",
+          "Errors": null,
+          "PromotionSummary": null,
+          "DataKeys": [
+            "Id",
+            "QuoteNo",
+            "IssueDate",
+            "AffiliateId",
+            "CustomerId",
+            "AgentId",
+            "PromotionId",
+            "BandId",
+            "Source",
+            "IsRenewalQuote",
+            "Customer",
+            "PetList",
+            "PremiumSummary",
+            "PromotionSummary",
+            "AffiliateNo"
+          ],
+          "Monthly": null,
+          "Annual": null,
+          "QuoteReference": null
+        },
+        "responseRaw": "{\"Success\":true,\"Message\":\"Quote generated successfully\",\"Data\":{\"Id\":0,\"QuoteNo\":\"QIYPU757BF10001--/202671\",\"IssueDate\":\"2026-08-07T10:22:46.6605755+00:00\",\"AffiliateId\":1,\"CustomerId\":0,\"AgentId\":null,\"PromotionId\":null,\"BandId\":\"4c272369-df79-4c75-b355-98e37e13d47e\",\"Source\":\"D\",\"IsRenewalQuote\":false,\"Customer\":{\"CustomerId\":0,\"Title\":\"Mr\",\"FirstName\":\"-\",\"LastName\":\"-\",\"DOB\":\"0001-01-01T00:00:00\",\"Address1\":\"Apartment 1\",\"Address2\":\"113 Newton Street\",\"Address3\":\"Manchester\",\"Address4\":\"Greater Manchester\",\"PostCode\":\"M1 1AE\",\"Email\":\"-\",\"TelNo\":null,\"Mobile\":\"Not Provided\",\"AllowMarketing\":false,\"UtcCreateDateTime\":\"0001-01-01T00:00:00\",\"UtcLastModifiedDateTime\":\"0001-01-01T00:00:00\",\"HidePostCode\":false},\"PetList\":[{\"Id\":0,\"PetName\":\"Luna\",\"PetDOB\":\"2020-08-07T00:00:00\",\"PetAgeGroupId\":89,\"PetTypeId\":1,\"PetSubTypeId\":6,\"IsFemale\":true,\"Colour\":\"Not Provided\",\"PetValueRangeId\":45,\"Neutered\":true,\"Chipped\":false,\"MicrochipNo\":\"Not Provided\",\"IsCrossBreed\":false,\"BreedId\":7,\"ReceiveText\":false,\"ReceivePost\":false,\"RequestedStartDate\":\"2026-08-07T00:00:00\",\"SelectedCoverLevelId\":3,\"OfferUpgrade\":true,\"IsDeceased\":null,\"PreSelectedCoverLevelId\":null,\"Copayment\":0.0,\"Excess\":200.00,\"VetFee\":10000.0,\"PetCost\":600.0,\"PetPremiums\":[{\"Id\":0,\"PetDetailsId\":0,\"CoverLevelId\":3,\"VetFeesId\":9,\"NetPrice\":200.14,\"BlueCommission\":50.04,\"AffiliateCommission\":0.00,\"Levy\":30.02,\"GrossPrice\":280.20,\"Discount\":0.00,\"PromotionDiscount\":0.0,\"AdminFee\":0.00,\"TextMessageFee\":0.0,\"PostageFee\":0.0,\"TotalPrice\":280.20,\"ExcessId\":4,\"CopaymentId\":1,\"PetTypeLoading\":120.54,\"PedigreeLoading\":{\"Key\":1.0,\"Value\":120.54},\"BreedLoading\":{\"Key\":0.7,\"Value\":84.378},\"AgeLoading\":{\"Key\":1.19,\"Value\":100.40982},\"SexLoading\":{\"Key\":0.956,\"Value\":95.99178792},\"PetValueLoading\":{\"Key\":1.0,\"Value\":98.391582618},\"ExcessLoading\":{\"Key\":0.8725,\"Value\":196.2200446268657},\"CopaymentLoading\":{\"Key\":1.0,\"Value\":196.2200446268657},\"CoverLevelLoading\":{\"Key\":2.4316,\"Value\":224.89403395629307},\"NeuteredLoading\":{\"Key\":1.025,\"Value\":98.391582618},\"PostCodeLoading\":{\"Key\":0.94,\"Value\":92.48808766092},\"AdjustedPremium\":null,\"PreDiscountedPremium\":null,\"PercentageDiscountApplied\":null,\"NBPremium\":280.20}],\"CoverLevel\":null,\"PetBreed\":null,\"PetPremiumAddOns\":[{\"Id\":0,\"Cost\":0.35,\"SelectedAddOn\":false,\"AddOnMaster\":{\"Id\":1,\"Name\":\"Find My Pet\",\"Description\":\"This covers Luna up to £5,000 if they're lost or stolen, up to £300 towards advertising costs and up to £1,000 for a reward. Please note: Luna must be micr"
+      },
+      {
+        "phase": "baseline-Next",
+        "method": "POST",
+        "url": "https://staging.insureyourpaws.co.uk/v2/api/quote/getnewquote",
+        "status": 200,
+        "ok": true,
+        "requestPromotionCode": null,
+        "requestBody": {
+          "PromotionCode": null,
+          "keys": [
+            "Quote",
+            "StoreQuote",
+            "StoreQuoteStep",
+            "QuoteType"
+          ]
+        },
+        "responseSummary": {
+          "Success": true,
+          "Message": "Quote generated successfully",
+          "Errors": null,
+          "PromotionSummary": null,
+          "DataKeys": [
+            "Id",
+            "QuoteNo",
+            "IssueDate",
+            "AffiliateId",
+            "CustomerId",
+            "AgentId",
+            "PromotionId",
+            "BandId",
+            "Source",
+            "IsRenewalQuote",
+            "Customer",
+            "PetList",
+            "PremiumSummary",
+            "PromotionSummary",
+            "AffiliateNo"
+          ],
+          "Monthly": null,
+          "Annual": null,
+          "QuoteReference": null
+        },
+        "responseRaw": "{\"Success\":true,\"Message\":\"Quote generated successfully\",\"Data\":{\"Id\":21030260,\"QuoteNo\":\"QIYPU7751AD0001JS/20261188\",\"IssueDate\":\"2026-08-07T10:22:56.6658523+00:00\",\"AffiliateId\":1,\"CustomerId\":20065591,\"AgentId\":null,\"PromotionId\":null,\"BandId\":\"4c272369-df79-4c75-b355-98e37e13d47e\",\"Source\":\"D\",\"IsRenewalQuote\":false,\"Customer\":{\"CustomerId\":20065591,\"Title\":\"Mr\",\"FirstName\":\"John\",\"LastName\":\"Smith\",\"DOB\":\"1985-06-15T00:00:00\",\"Address1\":\"Apartment 1\",\"Address2\":\"113 Newton Street\",\"Address3\":\"Manchester\",\"Address4\":\"Greater Manchester\",\"PostCode\":\"M1 1AE\",\"Email\":\"john.smith@test.com\",\"TelNo\":null,\"Mobile\":\"07700900123\",\"AllowMarketing\":false,\"UtcCreateDateTime\":\"2026-08-07T10:22:56.8377477Z\",\"UtcLastModifiedDateTime\":\"2026-08-07T10:22:56.8377477Z\",\"HidePostCode\":false},\"PetList\":[{\"Id\":22116491,\"PetName\":\"Luna\",\"PetDOB\":\"2020-08-07T00:00:00\",\"PetAgeGroupId\":89,\"PetTypeId\":1,\"PetSubTypeId\":6,\"IsFemale\":true,\"Colour\":\"Not Provided\",\"PetValueRangeId\":45,\"Neutered\":true,\"Chipped\":false,\"MicrochipNo\":\"Not Provided\",\"IsCrossBreed\":false,\"BreedId\":7,\"ReceiveText\":false,\"ReceivePost\":false,\"RequestedStartDate\":\"2026-08-07T00:00:00\",\"SelectedCoverLevelId\":3,\"OfferUpgrade\":true,\"IsDeceased\":null,\"PreSelectedCoverLevelId\":null,\"Copayment\":0.0,\"Excess\":200.00,\"VetFee\":10000.0,\"PetCost\":600.0,\"PetPremiums\":[{\"Id\":63400966,\"PetDetailsId\":22116491,\"CoverLevelId\":3,\"VetFeesId\":9,\"NetPrice\":200.14,\"BlueCommission\":50.04,\"AffiliateCommission\":0.00,\"Levy\":30.02,\"GrossPrice\":280.20,\"Discount\":0.00,\"PromotionDiscount\":0.0,\"AdminFee\":0.00,\"TextMessageFee\":0.0,\"PostageFee\":0.0,\"TotalPrice\":280.20,\"ExcessId\":4,\"CopaymentId\":1,\"PetTypeLoading\":0.0,\"PedigreeLoading\":{\"Key\":0.0,\"Value\":0.0},\"BreedLoading\":{\"Key\":0.0,\"Value\":0.0},\"AgeLoading\":{\"Key\":0.0,\"Value\":0.0},\"SexLoading\":{\"Key\":0.0,\"Value\":0.0},\"PetValueLoading\":{\"Key\":0.0,\"Value\":0.0},\"ExcessLoading\":{\"Key\":0.0,\"Value\":0.0},\"CopaymentLoading\":{\"Key\":0.0,\"Value\":0.0},\"CoverLevelLoading\":{\"Key\":0.0,\"Value\":0.0},\"NeuteredLoading\":{\"Key\":0.0,\"Value\":0.0},\"PostCodeLoading\":{\"Key\":0.0,\"Value\":0.0},\"AdjustedPremium\":null,\"PreDiscountedPremium\":null,\"PercentageDiscountApplied\":null,\"NBPremium\":280.20}],\"CoverLevel\":null,\"PetBreed\":null,\"PetPremiumAddOns\":[{\"Id\":214632,\"Cost\":0.35,\"SelectedAddOn\":false,\"AddOnMaster\":{\"Id\":1,\"Name\":\"Find My Pet\",\"Description\":\"This covers Luna up to £5,000 if they're lost or stolen, up to £300 towards advertising costs and up to £1,000 for a reward. Please note: Luna must be microchipped to be c"
+      }
+    ]
+  },
+  "withPromo": {
+    "priceBefore": 23.35,
+    "priceAfter": 23.35,
+    "discountApplied": true,
+    "discountText": "30% discount code applied",
+    "techAfterApply": false,
+    "reachedPayment": false,
+    "technicalIssueVisible": true,
+    "url": "https://staging.insureyourpaws.co.uk/journey/step3",
+    "heading": "Summary of cover",
+    "mainSnippet": "Summary of cover\n\nSorry, we are currently experiencing a technical issue. Please try again or alternatively contact Customer Service.\n\nPolicy Summary\nEdit pet details\nCover Level:\nLifetime\nCover Start Date:\n07/08/2026\nPet name:\nLuna\nBreed:\nMoggie\nDOB:\n07/08/2020\nChosen vet fee limit:\n£10,000\nChosen excess amount:\n£200\nYour share of the vet bill:\n0%\nOptional extras\nEdit\nFind My Pet\nNot included\nSaying Goodbye\nNot included\nAway From Home\nNot included\nView summary of benefits & exclusions\nPrice Summary\n30% discount code applied\n-£0.00\nTotal Monthly Price (incl. 12% IPT)\n£23.35\nHave a discount code?\nApply\nPolicy Documents\nYour details\nFirst name\nLast name\nMobile number\nEmail\nDate of birth\n/\n/\nMarketing preferences\n\nWe’d love to contact you from time-to-time by email. Would you like to receive promotional information including competitions, discounts and newsletters? You can opt-out of these at any time.\n\nYes\nNo\nAuto Renewal\n\nTo make sure there’s no gap in cover we’ll automatically renew your policy each year, unless you tell us not to. We'll send you a renewal invite at least 21 days before your renewal date. If you do not want us to automatically renew your policy, please contact us o",
+    "apis": [
+      {
+        "phase": "apply-TEST",
+        "method": "POST",
+        "url": "https://staging.insureyourpaws.co.uk/v2/api/quote/getnewquote",
+        "status": 200,
+        "ok": true,
+        "requestPromotionCode": "TEST",
+        "requestBody": {
+          "PromotionCode": "TEST",
+          "keys": [
+            "Quote",
+            "PromotionCode"
+          ]
+        },
+        "responseSummary": {
+          "Success": true,
+          "Message": "Quote generated successfully",
+          "Errors": null,
+          "PromotionSummary": {
+            "Description": "30% discount code applied",
+            "DiscountAmount": "-£0.00",
+            "Error": null
+          },
+          "DataKeys": [
+            "Id",
+            "QuoteNo",
+            "IssueDate",
+            "AffiliateId",
+            "CustomerId",
+            "AgentId",
+            "PromotionId",
+            "BandId",
+            "Source",
+            "IsRenewalQuote",
+            "Customer",
+            "PetList",
+            "PremiumSummary",
+            "PromotionSummary",
+            "AffiliateNo"
+          ],
+          "Monthly": null,
+          "Annual": null,
+          "QuoteReference": null
+        },
+        "responseRaw": "{\"Success\":true,\"Message\":\"Quote generated successfully\",\"Data\":{\"Id\":21030261,\"QuoteNo\":\"QIYPU3417FC0001--/202671\",\"IssueDate\":\"2026-08-07T10:23:28.011098+00:00\",\"AffiliateId\":1,\"CustomerId\":20065592,\"AgentId\":null,\"PromotionId\":122,\"BandId\":\"4c272369-df79-4c75-b355-98e37e13d47e\",\"Source\":\"D\",\"IsRenewalQuote\":false,\"Customer\":{\"CustomerId\":20065592,\"Title\":\"Mr\",\"FirstName\":\"-\",\"LastName\":\"-\",\"DOB\":\"0001-01-01T00:00:00\",\"Address1\":\"Apartment 1\",\"Address2\":\"113 Newton Street\",\"Address3\":\"Manchester\",\"Address4\":\"Greater Manchester\",\"PostCode\":\"M1 1AE\",\"Email\":\"-\",\"TelNo\":null,\"Mobile\":\"Not Provided\",\"AllowMarketing\":false,\"UtcCreateDateTime\":\"2026-08-07T10:23:28.0732729Z\",\"UtcLastModifiedDateTime\":\"2026-08-07T10:23:28.0732729Z\",\"HidePostCode\":false},\"PetList\":[{\"Id\":22116492,\"PetName\":\"Luna\",\"PetDOB\":\"2020-08-07T00:00:00\",\"PetAgeGroupId\":89,\"PetTypeId\":1,\"PetSubTypeId\":6,\"IsFemale\":true,\"Colour\":\"Not Provided\",\"PetValueRangeId\":45,\"Neutered\":true,\"Chipped\":false,\"MicrochipNo\":\"Not Provided\",\"IsCrossBreed\":false,\"BreedId\":7,\"ReceiveText\":false,\"ReceivePost\":false,\"RequestedStartDate\":\"2026-08-07T00:00:00\",\"SelectedCoverLevelId\":3,\"OfferUpgrade\":true,\"IsDeceased\":null,\"PreSelectedCoverLevelId\":null,\"Copayment\":0.0,\"Excess\":200.00,\"VetFee\":10000.0,\"PetCost\":600.0,\"PetPremiums\":[{\"Id\":63400967,\"PetDetailsId\":22116492,\"CoverLevelId\":3,\"VetFeesId\":9,\"NetPrice\":200.14,\"BlueCommission\":50.04,\"AffiliateCommission\":0.00,\"Levy\":30.02,\"GrossPrice\":280.20,\"Discount\":0.00,\"PromotionDiscount\":0.0,\"AdminFee\":0.00,\"TextMessageFee\":0.0,\"PostageFee\":0.0,\"TotalPrice\":280.20,\"ExcessId\":4,\"CopaymentId\":1,\"PetTypeLoading\":0.0,\"PedigreeLoading\":{\"Key\":0.0,\"Value\":0.0},\"BreedLoading\":{\"Key\":0.0,\"Value\":0.0},\"AgeLoading\":{\"Key\":0.0,\"Value\":0.0},\"SexLoading\":{\"Key\":0.0,\"Value\":0.0},\"PetValueLoading\":{\"Key\":0.0,\"Value\":0.0},\"ExcessLoading\":{\"Key\":0.0,\"Value\":0.0},\"CopaymentLoading\":{\"Key\":0.0,\"Value\":0.0},\"CoverLevelLoading\":{\"Key\":0.0,\"Value\":0.0},\"NeuteredLoading\":{\"Key\":0.0,\"Value\":0.0},\"PostCodeLoading\":{\"Key\":0.0,\"Value\":0.0},\"AdjustedPremium\":null,\"PreDiscountedPremium\":null,\"PercentageDiscountApplied\":null,\"NBPremium\":280.20}],\"CoverLevel\":null,\"PetBreed\":null,\"PetPremiumAddOns\":[{\"Id\":214635,\"Cost\":0.35,\"SelectedAddOn\":false,\"AddOnMaster\":{\"Id\":1,\"Name\":\"Find My Pet\",\"Description\":\"This covers Luna up to £5,000 if they're lost or stolen, up to £300 towards advertising costs and up to £1,000 for a reward. Please note: Luna must be microchipped to be covered under this section of"
+      },
+      {
+        "phase": "promo-Next",
+        "method": "POST",
+        "url": "https://staging.insureyourpaws.co.uk/v2/api/quote/getnewquote",
+        "status": 200,
+        "ok": true,
+        "requestPromotionCode": "TEST",
+        "requestBody": {
+          "PromotionCode": "TEST",
+          "keys": [
+            "Quote",
+            "PromotionCode",
+            "StoreQuote",
+            "StoreQuoteStep",
+            "QuoteType"
+          ]
+        },
+        "responseSummary": {
+          "Success": false,
+          "Message": "Sorry, we are currently experiencing a technical issue. Please try again or alternatively contact Customer Service.",
+          "Errors": null,
+          "PromotionSummary": null,
+          "DataKeys": [],
+          "Monthly": null,
+          "Annual": null,
+          "QuoteReference": null
+        },
+        "responseRaw": "{\"Success\":false,\"Message\":\"Sorry, we are currently experiencing a technical issue. Please try again or alternatively contact Customer Service.\",\"Data\":null}"
+      }
+    ]
+  }
+}

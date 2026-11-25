@@ -1,0 +1,22 @@
+{
+  "baseURL": "https://staging.insureyourpaws.co.uk/",
+  "ranAt": "2026-08-07T10:27:11.365Z",
+  "priceBefore": 23.35,
+  "priceAfter": 23.35,
+  "applyStatus": 200,
+  "applySuccess": true,
+  "applyMessage": "Quote generated successfully",
+  "applyPromo": {
+    "Description": "30% discount code applied",
+    "DiscountAmount": "-£0.00",
+    "Error": null
+  },
+  "techAfterApply": false,
+  "nextStatus": 200,
+  "nextSuccess": false,
+  "nextMessage": "Sorry, we are currently experiencing a technical issue. Please try again or alternatively contact Customer Service.",
+  "nextPromoCode": "TEST",
+  "technicalIssueVisible": true,
+  "reachedPayment": false,
+  "url": "https://staging.insureyourpaws.co.uk/journey/step3"
+}

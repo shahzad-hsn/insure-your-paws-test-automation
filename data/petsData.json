@@ -1,0 +1,567 @@
+{
+  "errorMessages": {
+    "petDetails": {
+      "petName": "Please enter your pet's name",
+      "petType": "Please answer this question",
+      "petGender": "Please answer this question",
+      "amountPaid": "Please answer this question",
+      "neutered": "Please answer this question",
+      "postcode": "Please enter your postcode",
+      "dateOfBirth": "Please enter your pet's date of birth",
+      "policyStart": "Please select a date when you'd like your cover to start",
+      "addressLine1": "Please enter the first line of your address",
+      "townCity": "Please enter your town/city",
+      "addressSelection": "Please select your address from the dropdown",
+      "underEightWeeks": "Your pet must be 8 weeks or older to get a quote"
+    },
+    "validation": {
+      "petName": {
+        "empty": "Pet name cannot be empty",
+        "tooShort": "Pet name must be at least 2 characters",
+        "tooLong": "Pet name must not exceed 50 characters",
+        "invalidFormat": "Pet name can only contain letters, spaces, hyphens and apostrophes"
+      },
+      "amount": {
+        "empty": "Amount cannot be empty",
+        "notNumber": "Amount must be a valid number",
+        "negative": "Amount cannot be negative",
+        "tooHigh": "Amount seems unreasonably high"
+      },
+      "postcode": {
+        "empty": "Postcode cannot be empty",
+        "invalidFormat": "Invalid UK postcode format"
+      },
+      "dateOfBirth": {
+        "empty": "All date fields must be filled",
+        "notNumbers": "Date values must be numbers",
+        "invalidDay": "Day must be between 1 and 31",
+        "invalidMonth": "Month must be between 1 and 12",
+        "invalidYear": "Year must be between 1900 and {currentYear}",
+        "invalidDate": "Invalid date",
+        "futureDate": "Date of birth cannot be in the future"
+      }
+    },
+    "policyStartDate": {
+      "prefix": "Your policy will start on"
+    },
+    "summary": {
+      "firstName": "Please enter your first name",
+      "lastName": "Please enter your surname",
+      "email": "Please enter your email address",
+      "emailFormat": "Please enter a valid email address",
+      "mobile": "Please enter your phone number",
+      "mobileFormat": "Please enter a valid telephone / mobile number",
+      "dob": "Please enter your date of birth",
+      "dobInvalid": "Please enter a valid date",
+      "dobInvalidFormat": "Invalid date format",
+      "dobFuture": "You must be over 18 years old to get a quote",
+      "agreement": "Please tick to agree to the terms and conditions",
+      "invalidDiscountCode": "You entered an invalid code. Please check the code and try again."
+    }
+  },
+  "helpPopup": {
+    "heading": "Have a question?",
+    "phone": "0344 273 2777",
+    "email": "info@insureyourpaws.co.uk",
+    "openingHours": {
+      "weekdays": "Mon - Fri:",
+      "weekdaysTime": "9:00am to 5:00pm",
+      "saturday": "Sat: Closed",
+      "sunday": "Sunday: Closed"
+    }
+  },
+  "benefitsExclusions": {
+    "heading": "What’s included",
+    "description": "Lifetime pet insurance is the most comprehensive level of cover",
+    "referenceText": "For a full list of benefits and exclusions, please refer to our",
+    "whatsCovered": {
+      "heading": "What’s covered",
+      "items": [
+        "Complementary therapies",
+        "Behavioural treatment",
+        "Dental treatment for accidents and illnesses",
+        "Cruciate ligaments",
+        "Euthanasia",
+        "Diagnostic imaging (MRI/ CT scans)",
+        "Prescription food",
+        "Emergency boarding (kennel/cattery fees)",
+        "Assist Your Paws careline - 24/7 free access to veterinary support"
+      ]
+    },
+    "whatsNotCovered": {
+      "heading": "What’s not covered",
+      "items": [
+        "Pre-existing conditions",
+        "Routine annual health checks",
+        "Neutering or spaying costs",
+        "Pregnancy related conditions, unless you’ve purchased our optional breeding cover",
+        "Routine or preventative treatments such as fleaing, worming, vaccinations"
+      ]
+    }
+  },
+  "validationTestData": {
+    "petName": {
+      "invalid": [
+        { "input": "", "description": "empty string" },
+        { "input": "A", "description": "too short (1 character)" },
+        { "input": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "description": "too long (51 characters)" },
+        { "input": "Max123", "description": "contains numbers" }
+      ],
+      "valid": [
+        { "input": "Max", "description": "valid name" },
+        { "input": "O'Malley", "description": "name with apostrophe" },
+        { "input": "Mary-Jane", "description": "name with hyphen" }
+      ]
+    },
+    "amount": {
+      "invalid": [
+        { "input": "", "description": "empty string" },
+        { "input": "abc", "description": "non-numeric" },
+        { "input": "-100", "description": "negative number" },
+        { "input": "15000", "description": "exceeds maximum (10000)" }
+      ],
+      "valid": [
+        { "input": "0", "description": "zero" },
+        { "input": "500", "description": "valid amount" },
+        { "input": "9999", "description": "near maximum" }
+      ]
+    },
+    "postcode": {
+      "invalid": [
+        { "input": "", "description": "empty string" },
+        { "input": "ABC", "description": "invalid format" },
+        { "input": "12345", "description": "numbers only" }
+      ],
+      "valid": [
+        { "input": "SW1A 1AA", "description": "valid UK postcode" },
+        { "input": "M1 1AE", "description": "valid UK postcode" },
+        { "input": "B33 8TH", "description": "valid UK postcode" }
+      ]
+    },
+    "dateOfBirth": {
+      "invalid": [
+        { "day": "", "month": "", "year": "", "description": "all empty" },
+        { "day": "aa", "month": "bb", "year": "cccc", "description": "non-numeric values" },
+        { "day": "32", "month": "06", "year": "2020", "description": "invalid day" },
+        { "day": "15", "month": "13", "year": "2020", "description": "invalid month" },
+        { "day": "30", "month": "02", "year": "2020", "description": "invalid date for month" },
+        { "day": "01", "month": "01", "year": "FUTURE_YEAR", "description": "future date" }
+      ],
+      "valid": [
+        { "day": "15", "month": "06", "year": "2020", "description": "valid date" },
+        { "day": "29", "month": "02", "year": "2020", "description": "leap year date" }
+      ]
+    }
+  },
+  "quoteTestData": {
+    "defaultValues": {
+      "vetFeeCover": "£10,000",
+      "excess": "£200",
+      "voluntaryExcess": "0%",
+      "basePrice": "£59.03"
+    },
+    "vetFeeCoverOptions": {
+      "minimum": "1000",
+      "maximum": "20000",
+      "testValues": ["5000", "10000", "15000", "20000"]
+    },
+    "excessOptions": {
+      "minimum": "100",
+      "maximum": "500",
+      "testValues": ["100", "200", "300", "500"]
+    },
+    "voluntaryExcessOptions": {
+      "minimum": "0",
+      "maximum": "30",
+      "testValues": ["0", "10", "20", "30"]
+    },
+    "optionalExtras": {
+      "findMyPet": {
+        "name": "Find My Pet",
+        "price": "£1.30"
+      },
+      "stayingGoodbye": {
+        "name": "Staying Goodbye",
+        "price": "£2.37"
+      },
+      "awayFromHome": {
+        "name": "Away From Home",
+        "price": "£5.04"
+      }
+    }
+  },
+  "petScenarios": {
+    "addCat": {
+      "name": "Whiskers",
+      "type": "cat",
+      "breedType": "pedigree",
+      "breed": "Abyssinian",
+      "gender": "male",
+      "amount": "500",
+      "neutered": true,
+      "postcode": "SW1A 1AA",
+      "ageYears": 5,
+      "policyStart": "today"
+    },
+    "addDog": {
+      "name": "Max",
+      "type": "dog",
+      "breedType": "cross",
+      "breed": "Afghan",
+      "gender": "female",
+      "amount": "800",
+      "neutered": false,
+      "postcode": "M1 1AE",
+      "ageYears": 6,
+      "policyStart": "tomorrow"
+    },
+    "didntPay": {
+      "name": "Buddy",
+      "type": "dog",
+      "breedType": "moggie",
+      "gender": "male",
+      "didntPay": true,
+      "neutered": true,
+      "postcode": "B33 8TH",
+      "ageYears": 4,
+      "policyStart": "today"
+    },
+    "manualAddress": {
+      "name": "Luna",
+      "type": "cat",
+      "breedType": "moggie",
+      "gender": "female",
+      "amount": "300",
+      "neutered": true,
+      "ageYears": 3,
+      "policyStart": "tomorrow",
+      "address": {
+        "line1": "123 High Street",
+        "line2": "Apartment 4B",
+        "town": "London",
+        "county": "Greater London",
+        "postcode": "SW1A 1AA"
+      }
+    },
+    "policyToday": {
+      "name": "Charlie",
+      "type": "dog",
+      "breedType": "pedigree",
+      "breed": "Affenpinscher",
+      "gender": "male",
+      "amount": "600",
+      "neutered": true,
+      "postcode": "CR2 6XH",
+      "ageYears": 7,
+      "policyStart": "today"
+    },
+    "policyTomorrow": {
+      "name": "Bella",
+      "type": "cat",
+      "breedType": "cross",
+      "breed": "American Blue",
+      "gender": "female",
+      "amount": "450",
+      "neutered": false,
+      "postcode": "SW1A 1AA",
+      "ageYears": 5,
+      "policyStart": "tomorrow"
+    },
+    "completeFlow": {
+      "name": "Rocky",
+      "type": "dog",
+      "breedType": "cross",
+      "breed": "Affenpinscher",
+      "gender": "male",
+      "amount": "1000",
+      "neutered": true,
+      "postcode": "SW1A 1AA",
+      "ageYears": 8,
+      "policyStart": "today"
+    },
+    "addressNotSelected": {
+      "name": "Whiskers",
+      "type": "cat",
+      "breedType": "moggie",
+      "gender": "female",
+      "amount": "500",
+      "neutered": true,
+      "postcode": "SW1A 1AA",
+      "ageYears": 5,
+      "policyStart": "today"
+    },
+    "persistence": {
+      "name": "Buddy",
+      "type": "dog",
+      "breedType": "pedigree",
+      "breed": "first",
+      "gender": "male",
+      "amount": "500",
+      "neutered": true,
+      "postcode": "M1 1AE",
+      "ageYears": 5,
+      "policyStart": "today"
+    }
+  },
+  "breedMatrix": [
+    { "petType": "cat", "breedType": "pedigree", "label": "Pedigree", "breed": "first", "expectBreedDropdown": true, "expectConfirmCheckbox": false },
+    { "petType": "cat", "breedType": "cross", "label": "Cross", "breed": "first", "expectBreedDropdown": true, "expectConfirmCheckbox": false },
+    { "petType": "cat", "breedType": "moggie", "label": "Moggie", "expectBreedDropdown": false, "expectConfirmCheckbox": false },
+    { "petType": "dog", "breedType": "pedigree", "label": "Pedigree", "breed": "first", "expectBreedDropdown": true, "expectConfirmCheckbox": false },
+    { "petType": "dog", "breedType": "cross", "label": "Cross", "breed": "first", "expectBreedDropdown": true, "expectConfirmCheckbox": true },
+    { "petType": "dog", "breedType": "moggie", "label": "Mixed", "breed": "first", "expectBreedDropdown": true, "expectConfirmCheckbox": true }
+  ],
+  "pets": [
+    {
+      "name": "Whiskers",
+      "type": "cat",
+      "gender": "female",
+      "amount": "500",
+      "neutered": true,
+      "postcode": "SW1A 1AA",
+      "dob": {
+        "day": "15",
+        "month": "06",
+        "year": "2020"
+      },
+      "policyStart": "today"
+    },
+    {
+      "name": "Max",
+      "type": "dog",
+      "gender": "male",
+      "amount": "800",
+      "neutered": false,
+      "postcode": "M1 1AE",
+      "dob": {
+        "day": "20",
+        "month": "03",
+        "year": "2019"
+      },
+      "policyStart": "tomorrow"
+    },
+    {
+      "name": "Luna",
+      "type": "cat",
+      "gender": "female",
+      "amount": "600",
+      "neutered": true,
+      "postcode": "B33 8TH",
+      "dob": {
+        "day": "10",
+        "month": "12",
+        "year": "2021"
+      },
+      "policyStart": "today"
+    },
+    {
+      "name": "Buddy",
+      "type": "dog",
+      "gender": "male",
+      "amount": "700",
+      "neutered": true,
+      "postcode": "CR2 6XH",
+      "dob": {
+        "day": "25",
+        "month": "11",
+        "year": "2018"
+      },
+      "policyStart": "tomorrow"
+    },
+    {
+      "name": "Bella",
+      "type": "cat",
+      "gender": "female",
+      "amount": "450",
+      "neutered": false,
+      "postcode": "DN55 1PT",
+      "dob": {
+        "day": "12",
+        "month": "04",
+        "year": "2020"
+      },
+      "policyStart": "today"
+    },
+    {
+      "name": "Charlie",
+      "type": "dog",
+      "gender": "male",
+      "amount": "900",
+      "neutered": true,
+      "postcode": "SW1A 1AA",
+      "dob": {
+        "day": "08",
+        "month": "07",
+        "year": "2019"
+      },
+      "policyStart": "tomorrow"
+    },
+    {
+      "name": "Daisy",
+      "type": "cat",
+      "gender": "female",
+      "amount": "550",
+      "neutered": true,
+      "postcode": "M1 1AE",
+      "dob": {
+        "day": "30",
+        "month": "01",
+        "year": "2021"
+      },
+      "policyStart": "today"
+    },
+    {
+      "name": "Rocky",
+      "type": "dog",
+      "gender": "male",
+      "amount": "1000",
+      "neutered": false,
+      "postcode": "B33 8TH",
+      "dob": {
+        "day": "18",
+        "month": "09",
+        "year": "2017"
+      },
+      "policyStart": "tomorrow"
+    }
+  ],
+  "summaryData": {
+    "pet": { "name": "Whiskers", "type": "cat", "breedType": "moggie", "gender": "female", "amount": "500", "neutered": true, "postcode": "SW1A 1AA", "ageYears": 6, "policyStart": "today" },
+    "placeholderName": "Test",
+    "updatedPetName": "UpdatedName",
+    "validEmail": "valid.email@test.com",
+    "validMobile": "07700900123",
+    "validDOB": { "day": "15", "month": "06", "year": "1985" },
+    "invalidEmails": ["invalidemail.com", "test@"],
+    "invalidMobiles": ["07abc123456", "0770090"],
+    "invalidDayDOB": { "day": "32", "month": "06", "year": "1990" },
+    "invalidMonthDOB": { "day": "15", "month": "13", "year": "1990" },
+    "optionalExtraStatus": { "notIncluded": "Not included", "included": "Included" },
+    "validDiscountCode": "TEST",
+    "discountAppliedMessageContains": "discount code applied",
+    "editedCustomerDetails": {
+      "firstName": "Jonathan",
+      "lastName": "Smithson",
+      "email": "jonathan.smithson@test.com",
+      "mobile": "07700900999"
+    }
+  },
+  "paymentCards": {
+    "valid": {
+      "number": "4263970000005262",
+      "securityCode": "123",
+      "notes": "Global Payments Visa — Successful (00). https://developer.globalpayments.com/resources/test-cards"
+    },
+    "expired": {
+      "number": "4263970000005262",
+      "securityCode": "123",
+      "expiry": "01/20",
+      "notes": "GP docs have no dedicated expired PAN; past expiry on a successful Visa is used for iyp_18."
+    },
+    "threeDSSuccess": {
+      "number": "4222000006285344",
+      "securityCode": "123",
+      "notes": "Global Payments Visa 3DS2 — Frictionless AUTHENTICATION_SUCCESSFUL (ECI 05)."
+    },
+    "threeDSFail": {
+      "number": "4222000002144131",
+      "securityCode": "123",
+      "notes": "Global Payments Visa 3DS2 — Frictionless AUTHENTICATION_FAILED (ECI 07)."
+    },
+    "threeDSChallenge": {
+      "number": "4222000001227408",
+      "securityCode": "123",
+      "notes": "Global Payments Visa 3DS2 — Challenge required."
+    }
+  },
+  "validationScenarios": {
+    "t5": { "pet": { "name": "Test", "type": "cat", "breedType": "moggie", "gender": "male", "amount": "500", "neutered": true, "postcode": "E1 7DB", "ageYears": 6, "policyStart": "today" } },
+    "t12": { "pet": { "name": "Validator", "type": "dog", "breedType": "cross", "breed": "first", "gender": "male", "amount": "700", "neutered": true, "postcode": "E1 7DB", "ageYears": 7, "policyStart": "today" } },
+    "t13": { "pet": { "name": "PriceCheck", "type": "cat", "breedType": "moggie", "gender": "female", "amount": "600", "neutered": true, "postcode": "SW1A 1AA", "ageYears": 6, "policyStart": "today" } },
+    "t14": { "pet": { "name": "VetFeesTest", "type": "dog", "breedType": "cross", "breed": "first", "gender": "male", "amount": "800", "neutered": true, "postcode": "M1 1AE", "ageYears": 8, "policyStart": "today" }, "quote": { "vetFees": "15000" } },
+    "t15": { "pet": { "name": "ExcessTest", "type": "cat", "breedType": "moggie", "gender": "female", "amount": "550", "neutered": false, "postcode": "E1 7DB", "ageYears": 5, "policyStart": "tomorrow" }, "quote": { "excess": "500" } },
+    "t16": { "pet": { "name": "ExtrasTest", "type": "dog", "breedType": "cross", "breed": "first", "gender": "male", "amount": "750", "neutered": true, "postcode": "SW1A 1AA", "ageYears": 7, "policyStart": "today" }, "quote": { "extra": 1 } },
+    "t17": { "pet": { "name": "SummaryTest", "type": "cat", "breedType": "moggie", "gender": "female", "amount": "650", "neutered": true, "postcode": "M1 1AE", "ageYears": 6, "policyStart": "today" } },
+    "t18": { "pet": { "name": "FieldsTest", "type": "dog", "breedType": "cross", "breed": "first", "gender": "male", "amount": "900", "neutered": true, "postcode": "E1 7DB", "ageYears": 9, "policyStart": "today" }, "user": { "firstName": "Test", "lastName": "User", "email": "test@test.com", "mobile": "07700900000", "dob": { "day": "01", "month": "01", "year": "1990" } } },
+    "t19": { "pet": { "name": "MarketingTest", "type": "cat", "breedType": "moggie", "gender": "female", "amount": "500", "neutered": false, "postcode": "SW1A 1AA", "ageYears": 5, "policyStart": "tomorrow" } },
+    "t20": { "pet": { "name": "PaymentTest", "type": "dog", "breedType": "cross", "breed": "first", "gender": "male", "amount": "850", "neutered": true, "postcode": "M1 1AE", "ageYears": 7, "policyStart": "today" }, "user": { "firstName": "Payment", "lastName": "Validator", "email": "payment@test.com", "mobile": "07700900111", "dob": { "day": "10", "month": "10", "year": "1985" } } },
+    "t21": { "pet": { "name": "FrequencyTest", "type": "cat", "breedType": "moggie", "gender": "female", "amount": "600", "neutered": true, "postcode": "E1 7DB", "ageYears": 6, "policyStart": "today" }, "user": { "firstName": "Frequency", "lastName": "Test", "email": "freq@test.com", "mobile": "07700900222", "dob": { "day": "15", "month": "08", "year": "1992" } } },
+    "t22": { "pet": { "name": "AddressTest", "type": "dog", "breedType": "cross", "breed": "first", "gender": "male", "amount": "950", "neutered": false, "postcode": "SW1A 1AA", "ageYears": 8, "policyStart": "tomorrow" }, "user": { "firstName": "Address", "lastName": "Validator", "email": "address@test.com", "mobile": "07700900333", "dob": { "day": "20", "month": "03", "year": "1987" } }, "payment": { "country": "United Kingdom", "email": "billing@test.com", "address": { "line1": "Test Street", "line2": "Apt 1", "town": "London", "postcode": "E1 7DB" } } },
+    "t23": { "pet": { "name": "BackNav", "type": "cat", "breedType": "moggie", "gender": "female", "amount": "700", "neutered": true, "postcode": "M1 1AE", "ageYears": 6, "policyStart": "today" } },
+    "t24": { "pet": { "name": "PaymentBack", "type": "dog", "breedType": "cross", "breed": "first", "gender": "male", "amount": "800", "neutered": true, "postcode": "E1 7DB", "ageYears": 7, "policyStart": "today" }, "user": { "firstName": "Back", "lastName": "Navigation", "email": "backnav@test.com", "mobile": "07700900444", "dob": { "day": "12", "month": "06", "year": "1989" } } },
+    "t25": { "pet": { "name": "EditCover", "type": "cat", "breedType": "moggie", "gender": "female", "amount": "550", "neutered": false, "postcode": "SW1A 1AA", "ageYears": 5, "policyStart": "tomorrow" } }
+  },
+  "flowScenarios": {
+    "dogNeutered": {
+      "pet": { "name": "Max", "type": "dog", "breedType": "pedigree", "breed": "first", "gender": "male", "amount": "850", "neutered": true, "postcode": "E1 7DB", "ageYears": 7, "policyStart": "today" },
+      "quote": { "vetFees": "15000", "excess": "150" },
+      "user": { "firstName": "John", "lastName": "Smith", "email": "john.smith@test.com", "mobile": "07700900123", "dob": { "day": "20", "month": "05", "year": "1985" }, "marketing": false },
+      "payment": { "frequency": "monthly", "country": "United Kingdom", "email": "john.smith@test.com", "address": { "line1": "123 High Street", "line2": "Flat 2", "town": "London", "postcode": "E1 7DB" } }
+    },
+    "catNoPayment": {
+      "pet": { "name": "Whiskers", "type": "cat", "breedType": "moggie", "gender": "female", "didntPay": true, "neutered": false, "postcode": "SW1A 1AA", "ageYears": 5, "policyStart": "tomorrow" },
+      "quote": { "vetFees": "10000", "excess": "100", "coPayment": "10" },
+      "user": { "firstName": "Sarah", "lastName": "Johnson", "email": "sarah.j@test.com", "mobile": "07700900456", "dob": { "day": "15", "month": "11", "year": "1992" }, "marketing": true },
+      "payment": { "frequency": "annual", "country": "United Kingdom", "email": "sarah.j@test.com", "address": { "line1": "456 Park Lane", "line2": "", "town": "Manchester", "postcode": "M1 1AE" }, "bank": { "sortCode": "200000", "accountNumber": "55779911" } }
+    },
+    "olderDogManual": {
+      "pet": { "name": "Buddy", "type": "dog", "breedType": "pedigree", "breed": "first", "gender": "male", "amount": "1200", "neutered": true, "ageYears": 11, "policyStart": "today", "address": { "line1": "789 Oak Avenue", "line2": "Suite 5", "town": "Birmingham", "county": "West Midlands", "postcode": "B1 1AA" } },
+      "quote": { "vetFees": "20000", "extra": 1 },
+      "user": { "firstName": "Michael", "lastName": "Brown", "email": "m.brown@test.com", "mobile": "07700900789", "dob": { "day": "08", "month": "02", "year": "1978" }, "marketing": false },
+      "payment": { "frequency": "monthly", "email": "m.brown@test.com", "address": { "line1": "789 Oak Avenue", "line2": "Suite 5", "town": "Birmingham", "postcode": "B1 1AA" } }
+    },
+    "navigation": {
+      "pet": { "name": "Luna", "type": "cat", "breedType": "moggie", "gender": "female", "amount": "600", "neutered": true, "postcode": "M1 1AE", "ageYears": 6, "policyStart": "today" },
+      "quote": { "vetFees": "12000" },
+      "user": { "firstName": "Emma", "lastName": "Davis", "email": "emma.d@test.com", "mobile": "07700900321", "dob": { "day": "12", "month": "09", "year": "1988" }, "marketing": true }
+    },
+    "multiPet": {
+      "pets": [
+        { "name": "Charlie", "type": "dog", "breedType": "pedigree", "breed": "Golden Retriever", "gender": "male", "amount": "950", "neutered": true, "postcode": "E1 7DB", "ageYears": 8, "policyStart": "today" },
+        { "name": "Buddy", "type": "dog", "breedType": "pedigree", "breed": "Golden Retriever", "gender": "male", "amount": "950", "neutered": true, "postcode": "E1 7DB", "ageYears": 8, "policyStart": "today" }
+      ],
+      "quote": { "vetFees": "15000", "excess": "200", "extra": 2 },
+      "user": { "firstName": "David", "lastName": "Wilson", "email": "d.wilson@test.com", "mobile": "07700900654", "dob": { "day": "25", "month": "04", "year": "1980" }, "marketing": false },
+      "payment": { "frequency": "annual", "email": "d.wilson@test.com", "address": { "line1": "321 Queen Street", "line2": "", "town": "Leeds", "postcode": "LS1 1AA" }, "bank": { "sortCode": "200000", "accountNumber": "55779911" } }
+    },
+    "policySummary": {
+      "pet": { "name": "Bella", "type": "cat", "breedType": "moggie", "gender": "female", "amount": "700", "neutered": true, "postcode": "SW1A 1AA", "ageYears": 7, "policyStart": "tomorrow" },
+      "quote": { "vetFees": "18000", "excess": "250", "coPayment": "15" }
+    }
+  },
+  "userDetails": [
+    {
+      "firstName": "John",
+      "lastName": "Smith",
+      "email": "john.smith@test.com",
+      "mobile": "07700900123",
+      "dob": {
+        "day": "15",
+        "month": "06",
+        "year": "1985"
+      }
+    },
+    {
+      "firstName": "Sarah",
+      "lastName": "Johnson",
+      "email": "sarah.johnson@test.com",
+      "mobile": "07700900456",
+      "dob": {
+        "day": "22",
+        "month": "11",
+        "year": "1990"
+      }
+    },
+    {
+      "firstName": "Michael",
+      "lastName": "Williams",
+      "email": "michael.williams@test.com",
+      "mobile": "07700900789",
+      "dob": {
+        "day": "08",
+        "month": "03",
+        "year": "1978"
+      }
+    }
+  ]
+}

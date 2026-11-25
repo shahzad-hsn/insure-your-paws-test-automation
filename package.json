@@ -1,0 +1,35 @@
+{
+  "name": "insure-your-paws",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test --project=chrome",
+    "test:smoke": "playwright test --project=smoke",
+    "ci:install-browsers": "playwright install chromium",
+    "test:e2e": "playwright test tests/1-insurance-flow.spec.ts",
+    "test:petDetails": "playwright test tests/2-pet-details.spec.ts",
+    "test:quote": "playwright test tests/3-quote.spec.ts",
+    "test:summary": "playwright test tests/4-summary.spec.ts",
+    "test:payment": "playwright test tests/5-payment.spec.ts",
+    "test:validations": "playwright test tests/6-validations.spec.ts",
+    "typecheck": "npx tsc --noEmit",
+    "report": "playwright show-report",
+    "allure:clean": "rimraf allure-results allure-report",
+    "allure:generate": "allure generate allure-results --clean -o allure-report",
+    "allure:open": "allure open allure-report"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@playwright/test": "^1.57.0",
+    "@types/node": "^25.0.3",
+    "allure-commandline": "^2.43.0",
+    "allure-js-commons": "^3.10.0",
+    "allure-playwright": "^3.10.0",
+    "dotenv": "^17.4.2",
+    "rimraf": "^6.1.3",
+    "typescript": "^5.8.2"
+  }
+}
